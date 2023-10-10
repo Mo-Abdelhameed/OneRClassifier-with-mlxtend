@@ -65,6 +65,7 @@ class Classifier:
     def __init__(self,
                  train_input: pd.DataFrame,
                  schema: ClassificationSchema,
+                 target_encoder_path:str = paths.TARGET_ENCODER_FILE
                  ):
         """Construct a New Classifier"""
         self._is_trained: bool = False
@@ -72,7 +73,7 @@ class Classifier:
         self.train_input = train_input
         self.schema = schema
         self.x = train_input.drop(columns=[schema.target])
-        self.y, self.target_encoder = encode_target(train_input[schema.target], save_path=paths.TARGET_ENCODER_FILE)
+        self.y, self.target_encoder = encode_target(train_input[schema.target], save_path=target_encoder_path)
         self.model_name = "OneRClassifier"
         self.predictor = OneRClassifier()
         self.best_model: str = ''
